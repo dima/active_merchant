@@ -22,7 +22,8 @@ module ActiveMerchant #:nodoc:
         money = amount(money)
         case normalize(credit_card_or_reference)
         when /1$/
-          Response.new(true, SUCCESS_MESSAGE, {:authorized_amount => money}, :test => true, :authorization => AUTHORIZATION )
+          Response.new(true, SUCCESS_MESSAGE, {:authorized_amount => money},
+                       :test => true, :authorization => AUTHORIZATION, :avs_result => {:code => 'D'} )
         when /2$/
           Response.new(false, FAILURE_MESSAGE, {:authorized_amount => money, :error => FAILURE_MESSAGE }, :test => true)
         else
@@ -34,7 +35,8 @@ module ActiveMerchant #:nodoc:
         money = amount(money)
         case normalize(credit_card_or_reference)
         when /1$/, AUTHORIZATION
-          Response.new(true, SUCCESS_MESSAGE, {:paid_amount => money}, :test => true, :authorization => AUTHORIZATION)
+          Response.new(true, SUCCESS_MESSAGE, {:paid_amount => money},
+                       :test => true, :authorization => AUTHORIZATION, :avs_result => {:code => 'D'})
         when /2$/
           Response.new(false, FAILURE_MESSAGE, {:paid_amount => money, :error => FAILURE_MESSAGE },:test => true)
         else
