@@ -286,8 +286,10 @@ module ActiveMerchant #:nodoc:
 
       # add fields depending on payment source selected (cc or transaction id)
       def add_payment_source(params, source)
-        if source.is_a?(String)
+        if source.is_a?(Numeric)
           add_billing_id(params, source)
+        elsif source.is_a?(String)
+          add_track(params, source)
         else
           add_creditcard(params, source)
         end
@@ -305,6 +307,11 @@ module ActiveMerchant #:nodoc:
       # add field for "instant" transaction, using previous transaction id
       def add_billing_id(params, billingid)
         params[:transaction_id] = billingid
+      end
+
+      # add swiped data as-is
+      def add_track(params, track)
+        params[:track] = track
       end
 
       # add address fields if present
